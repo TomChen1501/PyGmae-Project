@@ -76,7 +76,7 @@ class AlienInvasion:
         alien_width = alien.rect.width
         available_space_x = self.settings.screen_width
         number_aliens_x = available_space_x//(alien_width)
-        for alien_number in number_aliens_x:
+        for alien_number in range(number_aliens_x):
             alien = Alien(self)
             alien.rect.x = alien_width + alien_number * alien_width
             self.aliens.add(alien)
