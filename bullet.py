@@ -16,8 +16,10 @@ class Bullet(Sprite):
         self.y = float(self.rect.y) # store the y position of bullet
 
     def update(self):
-        self.y -= self.settings.bullet_speed
-        self.rect.y = self.y
+            self.y -= self.settings.bullet_speed
+            self.rect.y = self.y
+
+
 
     def draw_bullet(self):
         pygame.draw.rect(self.screen,self.color,self.rect)

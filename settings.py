@@ -6,7 +6,11 @@ class Settings:
         self.screen_width = 1200
         self.screen_height = 800
         self.bg_color = (230,230,230)
+
+        # ship setting
         self.ship_speed = 1.5
+        self.ship_limit = 3  # stores the initial number of ships that the user has
+        self.ship_fire_level = 1
 
         # bullet settings
         self.bullet_speed = 1.5
@@ -20,3 +24,4 @@ class Settings:
         self.fleet_drop_speed = 10
         # fleet_direction = 1 means right, = -1 means left
         self.fleet_direction = 1
+
