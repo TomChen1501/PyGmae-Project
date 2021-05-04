@@ -9,7 +9,7 @@ class Settings:
 
         # ship setting
         self.ship_speed = 1.5
-        self.ship_limit = 3  # stores the initial number of ships that the user has
+        self.ship_limit = 3   # stores the initial number of ships that the user has
         self.ship_fire_level = 1
 
         # bullet settings
