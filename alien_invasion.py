@@ -22,6 +22,12 @@ class AlienInvasion:
         # self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")
 
+        pygame.mixer.music.load("resource/sound/game_music.ogg")
+        pygame.mixer.music.set_volume(0.2)
+        pygame.mixer.music.play(-1)
+        self.bullet_sound = pygame.mixer.Sound("resource/sound/bullet.wav")
+        self.bullet_sound.set_volume(0.2)
+
         self.stats = GameStats(self)
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -86,6 +92,7 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
+            self.bullet_sound.play()
 
     def _update_bullets(self):  # update the position of bullets and delete bullet that is off screen
         # update the position
