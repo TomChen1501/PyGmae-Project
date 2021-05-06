@@ -8,7 +8,7 @@ class Ship:
         self.screen_rect = ai_game.screen.get_rect()
 
         # get the image of the ship and make the out rect for it
-        self.image = pygame.image.load('images/ship.bmp')
+        self.image = pygame.image.load('resource/images/me1.png')
         self.rect = self.image.get_rect()
 
         self.rect.midbottom = self.screen_rect.midbottom
