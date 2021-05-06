@@ -13,6 +13,7 @@ class Ship:
         self.rect = self.image.get_rect()
 
         self.rect.midbottom = self.screen_rect.midbottom
+        self.rect.y -= 100
         self.x = float(self.rect.x)
 
         self.moving_right = False

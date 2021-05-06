@@ -123,14 +123,12 @@ class AlienInvasion:
         else:
             self.stats.game_active = False
 
-
-
-    def _check_aliens_bottom(self):
-        screen_rect = self.screen.get_rect()
-        for alien in self.aliens.sprites():
-            if alien.rect.bottom >= screen_rect.bottom:
-                self._ship_hit()
-                break
+    # def _check_aliens_bottom(self):
+    #     screen_rect = self.screen.get_rect()
+    #     for alien in self.aliens.sprites():
+    #         if alien.rect.bottom >= screen_rect.bottom:
+    #             self._ship_hit()
+    #             break
 
     def _update_aliens(self):
         self._check_fleet_edges()
@@ -138,7 +136,7 @@ class AlienInvasion:
 
         if pygame.sprite.spritecollideany(self.ship,self.aliens):
             self._ship_hit()
-        self._check_aliens_bottom()
+        # self._check_aliens_bottom()
 
     def _create_fleet(self):
         alien = Alien(self)
@@ -147,7 +145,7 @@ class AlienInvasion:
         number_aliens_x = available_space_x//(2 * alien_width)
 
         ship_height = self.ship.rect.height
-        available_space_y = (self.settings.screen_height - (5 * alien_height) - ship_height)
+        available_space_y = (self.settings.screen_height - (4 * alien_height) - 2 * ship_height)
         number_rows = available_space_y // (2 * alien_height)
 
         for row_number in range(number_rows):
