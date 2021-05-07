@@ -10,10 +10,10 @@ class Ship:
 
         # get the image of the ship and make the out rect for it
         self.image = pygame.image.load('resource/images/me1.png')
+        self.image = pygame.transform.scale(self.image, (60, 80))
         self.rect = self.image.get_rect()
 
         self.rect.midbottom = self.screen_rect.midbottom
-        self.rect.y -= 100
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
 
@@ -29,16 +29,16 @@ class Ship:
             self.x -= self.settings.ship_speed
         if self.moving_up and self.rect.top > 0:
             self.y -= self.settings.ship_speed
-        if self.moving_down and self.rect.bottom < self.screen_rect.bottom - 100:
+        if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
             self.y += self.settings.ship_speed
 
         self.rect.x = self.x
+        self.rect.y = self.y
 
     def bliteme(self):
         self.screen.blit(self.image, self.rect)
 
     def center_ship(self):
         self.rect.midbottom = self.screen_rect.midbottom
-        self.rect.y -= 100
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
