@@ -55,7 +55,7 @@ class Alien_Bullet(Sprite):
         self.grazed = False
 
     def update(self):
-        self.y += self.settings.alien_bullet_speed
+        self.y += self.settings.alien_bullet_speed * 3
         self.rect.y = self.y
 
     def draw_bullet(self):
@@ -90,3 +90,28 @@ class Alien_sniper_bullet(Sprite):
 
     def draw_bullet(self):
         self.screen.blit(self.image, self.rect)
+
+class Alien_Boss(Sprite):
+    def __init__(self, ai_game):
+        super().__init__()
+        self.screen = ai_game.screen
+        self.settings = ai_game.settings
+        self.stats = ai_game.stats
+        self.image = pygame.image.load('resource/images/enemy2.png')
+        self.rect = self.image.get_rect()
+
+        self.rect.y = -120
+        self.x = float(self.rect.x)
+        self.y = float(self.rect.y)
+
+    # def __int__(self, ai_game, alien):
+    #     super().__init__(ai_game)
+    #     self.image = pygame.image.load('resource/images/enemy2.png').convert_alpha()
+    #     self.rect = self.image.get_rect()
+
+    def update(self):
+        if self.y <= 100:
+            self.y += self.settings.alien_speed
+            self.rect.y = self.y
+        else:
+            pass

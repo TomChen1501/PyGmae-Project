@@ -58,4 +58,4 @@ class Ship:
 
 class Graze_box():
     def __init__(self):
-        self.rect = pygame.Rect(0, 0, 20, 20)
+        self.rect = pygame.Rect(0, 0, 30, 30)

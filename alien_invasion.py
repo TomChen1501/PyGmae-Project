@@ -7,7 +7,7 @@ from source.settings import Settings
 from source.game_stats import GameStats
 from source.ship import Ship
 from source.bullet import Bullet
-from source.alien import Alien, Alien_Bullet, Alien_sniper_bullet
+from source.alien import Alien, Alien_Boss, Alien_Bullet, Alien_sniper_bullet
 from source.button import Button
 
 
@@ -37,6 +37,7 @@ class AlienInvasion:
         self.bullets = pygame.sprite.Group()
         self.alien_bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
+        self.boss = pygame.sprite.Group()
 
         self._create_fleet()
         self.clock = pygame.time.Clock()
@@ -77,6 +78,7 @@ class AlienInvasion:
             self.stats.reset_stats()
             self.stats.game_active = True
             self.aliens.empty()
+            self.boss.empty()
             self.alien_bullets.empty()
             self.bullets.empty()
             self._create_fleet()
@@ -135,17 +137,16 @@ class AlienInvasion:
         self._create_fleet()
         if collisions:
             self.stats.game_score += 100
-            print(self.stats.game_score)
         for bullet in self.alien_bullets:
             if pygame.sprite.collide_rect(bullet, self.ship.graze_box) and not bullet.grazed:
                 self.stats.game_score += 100
                 bullet.grazed = True
-                print(self.stats.game_score)
 
     def _ship_hit(self):
         if self.stats.ships_left > 0:
             self.stats.ships_left -= 1
             self.aliens.empty()
+            self.boss.empty()
             self.bullets.empty()
             self.alien_bullets.empty()
             self._create_fleet()
@@ -164,6 +165,7 @@ class AlienInvasion:
     def _update_aliens(self):
         # self._check_fleet_edges()
         self.aliens.update()
+        self.boss.update()
         for alien in self.aliens.copy():
             if alien.rect.bottom - alien.rect.height > self.screen.get_rect().bottom:
                 self.aliens.remove(alien)
@@ -171,22 +173,35 @@ class AlienInvasion:
             for alien in self.aliens.copy():
                 new_bullet = Alien_sniper_bullet(self, alien)
                 self.alien_bullets.add(new_bullet)
+            for boss in self.boss.copy():
+                new_bullet = Alien_Bullet(self, boss)
+                self.alien_bullets.add(new_bullet)
 
-        if pygame.sprite.spritecollideany(self.ship, self.aliens) or pygame.sprite.spritecollideany(self.ship, self.alien_bullets):
+        if pygame.sprite.spritecollideany(self.ship, self.aliens) or pygame.sprite.spritecollideany\
+        (self.ship, self.alien_bullets) or pygame.sprite.spritecollideany(self.ship, self.boss):
             self._ship_hit()
 
         # self._check_aliens_bottom()
 
     def _create_fleet(self):
-        if self.stats.game_score <= 2000:
+        if self.stats.game_score <= 200:
             if len(self.aliens) <= 10:
                 self._create_alien()
-        elif self.stats.game_score <= 5000:
+        elif self.stats.game_score <= 500:
             if len(self.aliens) <= 20:
                 self._create_alien()
         else:
-            # Boss fight
-            pass
+            if len(self.boss) < 1:
+                self._create_boss()
+
+
+
+    # def _boss_fight(self):
+    #     self.aliens.empty()
+    #     self.bullets.empty()
+    #     self.alien_bullets.empty()
+    #     self._create_boss()
+
 
         # alien_width, alien_height = alien.rect.size
         # available_space_x = self.settings.screen_width - 2 * alien_width
@@ -199,6 +214,11 @@ class AlienInvasion:
         # for row_number in range(number_rows):
         #     for alien_number in range(number_aliens_x):
         #         self._create_alien(alien_number, row_number)
+
+    def _create_boss(self):
+        boss = Alien_Boss(self)
+        boss.rect.x = int((self.screen_rect.right - boss.rect.width)/2)
+        self.boss.add(boss)
 
     def _create_alien(self):
         # for i in range(alien_number):
@@ -235,6 +255,7 @@ class AlienInvasion:
         for bullet in self.alien_bullets.sprites():
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
+        self.boss.draw(self.screen)
         self._blite_gamescore()
 
         if not self.stats.game_active:
